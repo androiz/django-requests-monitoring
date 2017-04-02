@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta
 
 N_RANGES = 16
 
@@ -24,8 +23,13 @@ def get_time_range():
     Return a list of tuples with len 16 and 2 times per tuble.
     i.e. : [(time0, time1),(time1, time2), ...(time15, time16)]
     '''
-
-    pass
+    result = []
+    time0 = get_start_time()
+    for i in range(0, N_RANGES):
+        time1 = time0 - timedelta(minutes=5)
+        result.append((time1, time0))
+        time0 = time1
+    return result.reverse()
 
 
 def charge_plot_data():

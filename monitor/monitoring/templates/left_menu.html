@@ -9,12 +9,12 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">David Williams</strong><b class="caret"></b>
+                                <strong class="font-bold">{{ request.user.username }}</strong><b class="caret"></b>
                             </span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="profile.html">Admin</a></li>
+                        <li><a href="/admin">Admin</a></li>
                         <li class="divider"></li>
                         <li><a href="login.html">Logout</a></li>
                     </ul>

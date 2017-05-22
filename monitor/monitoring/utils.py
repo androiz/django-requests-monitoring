@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from .models import LogEntry
+
 N_RANGES = 16
 
 
@@ -9,13 +11,14 @@ def get_start_time():
 
     if len(minute) > 1:
         d = minute[0]
-        u = '0' if int(minute[1]) > 5 else '1'
+        u = '0' if int(minute[1]) < 5 else '5'
     else:
         d = '0'
-        u = '0' if int(minute[0]) > 5 else '1'
+        u = '0' if int(minute[1]) < 5 else '5'
 
     start_minute = int('{}{}'.format(d, u))
-    return now.replace(minute=start_minute)
+    print(start_minute, d, u)
+    return now.replace(minute=(start_minute+5) % 60, second=0)
 
 
 def get_time_range():
@@ -29,7 +32,8 @@ def get_time_range():
         time1 = time0 - timedelta(minutes=5)
         result.append((time1, time0))
         time0 = time1
-    return result.reverse()
+    result.reverse()
+    return result
 
 
 def charge_plot_data():
@@ -38,4 +42,13 @@ def charge_plot_data():
     The first list get information about all requests for each time.
     The second list get information about post requests for each time.
     '''
-    pass
+    data1 = []
+    data2 = []
+
+    ranges = get_time_range()
+
+    for range in ranges:
+        n = LogEntry.objects.filter(created_at__gt=range[0], created_at__lte=range[1]).count()
+        data1.append(range[1].strftime("%H:%M"))
+        data2.append(n)
+    return data1, data2

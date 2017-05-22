@@ -13,6 +13,8 @@ class MonitoringView(TemplateView):
         context = super(MonitoringView, self).get_context_data(**kwargs)
         context['entries'] = LogEntry.objects.order_by('created_at').reverse()[0:20]
 
-        # data1, data2 = charge_plot_data()
+        data1, data2 = charge_plot_data()
+        context['data1'] = data1
+        context['data2'] = data2
 
         return context
